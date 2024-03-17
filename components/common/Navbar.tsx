@@ -5,11 +5,13 @@ import { navbarOption } from "@/data/navbarOption";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import { getCookie, setCookie } from 'typescript-cookie';
+// import { Cookies } from 'typescript-cookie';
+import Cookie from "js-cookie"
 
 function Navbar() {
-    const token = getCookie("token");
-   
+    const token = Cookie.get("token")
+    console.log(token)
+    
     return (
         <nav className="h-16 z-[50] fixed pr-6 flex justify-between items-center border-b shadow-md w-full bg-gradient-to-tl from-[#7DE2FC] to-[#b6c6e5]">
             <div className="lg:hidden ml-3">
@@ -26,19 +28,21 @@ function Navbar() {
                         {item.label}
                     </Link>
                 ))}
-            </div>{
-                token ? <div>
-                    already login
-                </div> :
+            </div>
                     <div className="flex gap-3">
-                        <Link href={"/Register"}>
+                        {
+                            token ? <>
+                            Already login
+                            </> : <>
+                            <Link href={"/Register"}>
                             <Button variant="outline">Register</Button>
                         </Link>
                         <Link href={"/login"}>
                             <Button>Login</Button>
-                        </Link>
+                        </Link></>
+                        }
                     </div>
-            }
+         
 
         </nav>
     )

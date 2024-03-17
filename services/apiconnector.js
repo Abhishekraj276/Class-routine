@@ -1,16 +1,16 @@
 import axios from 'axios'
-import Cookies from 'js-cookie';
+import { getCookie, setCookie } from 'typescript-cookie';
 
 export const axiosInstance = axios.create({});
 // axiosInstance.defaults.headers = 
 // const baseurl = "http://ec2-13-234-119-18.ap-south-1.compute.amazonaws.com"
-const baseurl = "http://localhost:3000/api"
+const baseurl = "http://localhost:3000"
 
 
 export const apiConnector = (method,url,bodyData) => {
-    const token = Cookies.get("token"); 
+    // const token = getCookie("token"); s
     let temp = {
-        token:token || null,
+        // token:token || null,
         ...bodyData
     } 
 

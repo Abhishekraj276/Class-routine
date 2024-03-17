@@ -31,7 +31,7 @@ const Register = ({ }) => {
 
     const onSubmit = async (formData: any) => {
         try {
-            const response = await apiConnector("POST", "/signup", formData);
+            const response = await apiConnector("POST", "/api/signup", formData);
       
             if (response.status == 200) {
               toast.success("User register Successfully");

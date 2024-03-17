@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import React from 'react'
+import React, { useEffect } from 'react';
 import {
   Card,
   CardContent,
@@ -22,16 +22,42 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { apiConnector } from "@/services/apiConnector";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import Cookies from "js-cookie";
 
 const Login = () => {
     const form = useForm();
+    const router = useRouter();
+
+
+	const [loading, setLoading] = React.useState(false);
+ 
 
     const onSubmit = async(formData:any) => {
-      const {data} = await apiConnector("POST","/login",formData);
-        console.log('Form submitted');
+     
+      try{
+        setLoading(true);
+      const {data} = await apiConnector("POST","/api/login",formData);
+        if(data.success){
+            toast.success("Login succesful");
+            Cookies.set("token",data.token)
+            router.replace("/");
+
+        }
+       
+    }catch (error) {
+      toast.error("error in Login:");
+     
+    }finally {
+			setLoading(false);
     }
+  };
+ 
+
   return (
     <div className="max-w-[500px] w-11/12 mx-auto my-5">
+      
       <Card className="bg-gradient-to-tl from-[#7DE2FC] to-[#AD88C6]">
         <CardHeader className="space-y-1 ">
           <CardTitle className="text-2xl text-center">Log In</CardTitle>
@@ -72,7 +98,7 @@ const Login = () => {
                   </FormItem>
                 )}
               />
-              <Button className="w-full">Login</Button>
+              <Button className="w-full" type="submit">Login</Button>
               <Button variant="ghost" className="w-full" type="button">
                 Forgot Password
               </Button>
